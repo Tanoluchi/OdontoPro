@@ -33,6 +33,22 @@ app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'OdontoPro API is running' });
 });
 
+// ============================================================================
+// MODULE ROUTES
+// ============================================================================
+// Import and register your module routes here
+// Example:
+// import userRoutes from './routes/user.routes.js';
+// app.use('/api/users', userRoutes);
+//
+// To add a new module (e.g., Users):
+// 1. Create controller: src/controllers/user.controller.ts
+// 2. Create routes: src/routes/user.routes.ts
+// 3. Import and register the routes above
+// 4. (Optional) Create types: src/types/user.types.ts
+// 5. (Optional) Create middleware: src/middleware/user.middleware.ts
+// ============================================================================
+
 // 404 handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({ error: 'Route not found' });

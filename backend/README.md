@@ -115,14 +115,22 @@ Add these scripts to your `package.json`:
 ```
 backend/
 ├── src/
-│   ├── app.ts              # Express app configuration
-│   ├── server.ts           # Server entry point
-│   └── prisma/             # Prisma-related files
+│   ├── app.ts                      # Express app configuration
+│   ├── server.ts                   # Server entry point
+│   ├── controllers/                # Business logic
+│   │   └── user.controller.ts      # Example controller
+│   ├── routes/                     # Route definitions
+│   │   └── user.routes.ts          # Example routes
+│   ├── middleware/                 # Custom middleware
+│   │   └── validation.middleware.ts
+│   ├── types/                      # TypeScript types
+│   │   └── user.types.ts
+│   └── MODULE_STRUCTURE.md         # Guide for adding modules
 ├── prisma/
-│   ├── schema.prisma       # Database schema
-│   └── migrations/         # Database migrations
-├── dist/                   # Compiled JavaScript (generated)
-├── .env                    # Environment variables (not in git)
+│   ├── schema.prisma               # Database schema
+│   └── migrations/                 # Database migrations
+├── dist/                           # Compiled JavaScript (generated)
+├── .env                            # Environment variables (not in git)
 ├── .gitignore
 ├── package.json
 ├── tsconfig.json
