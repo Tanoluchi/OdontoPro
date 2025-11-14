@@ -21,7 +21,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
-  next();
+  return next();
 });
 
 // Use the main router
