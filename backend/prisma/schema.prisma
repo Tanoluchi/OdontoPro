@@ -18,13 +18,15 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   role       Role     @relation(fields: [rol_id], references: [id])
+  @@map ("users")
 }
 
 model Role {
   id         String   @id @default(cuid())
-  nombre     String
+  name       String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   users      User[]
+  @@map ("roles")
 }
 
