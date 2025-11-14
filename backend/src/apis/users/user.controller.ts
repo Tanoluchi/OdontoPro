@@ -13,4 +13,20 @@ export const createUser = async (req: Request, res: Response) => {
         error: err.message 
     })
   }
-}
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id;
+    if (!userId) throw new Error('User ID is required');
+
+    const user = await userService.getUserById(parseInt(userId));
+
+    res.status(200).json(user)
+  } catch (err: any) {
+    res.status(400).json({
+        message: 'Error fetching users',
+        error: err.message 
+    })
+  }
+};
