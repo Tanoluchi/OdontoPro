@@ -211,6 +211,26 @@ Add these scripts to your `package.json`:
 }
 ```
 
+## Generate Prisma Schema & Migration
+
+To generate Prisma schemas and create a new migration, run:
+
+```bash
+npm run generate:schema
+```
+
+This command will:
+- Generate the latest Prisma schema files.
+- Create a new migration in the `prisma/migrations` directory.
+
+After running this, you can apply the migration with:
+
+```bash
+npx prisma migrate dev --name <migration_name>
+```
+
+Replace `<migration_name>` with a descriptive name for your migration.
+
 ## API Endpoints
 
 ### Health Check

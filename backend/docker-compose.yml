@@ -33,10 +33,12 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-odontopro}:${POSTGRES_PASSWORD:-odontopro_password}@db:5432/${POSTGRES_DB:-odontopro}
     ports:
       - "3000:3000"
+    volumes:
+    - ./prisma:/app/prisma
     depends_on:
       db:
         condition: service_healthy
-    command: sh -c "npx prisma migrate deploy && npm start"
+    command: sh -c "npx prisma migrate deploy && npx prisma db seed && npm start"
 
 volumes:
   postgres_data:
