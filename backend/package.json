@@ -1,0 +1,38 @@
+{
+  "name": "odonto-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx src/server.ts",
+    "build": "tsc",
+    "start": "node dist/src/server.js",
+    "generate:schema": "node ./scripts/generate-schema.js",
+    "prisma:generate": "npm run generate:schema && prisma generate",
+    "prisma:migrate": "npm run generate:schema && prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "OdontoPro Backend API",
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "glob": "^11.0.3",
+    "pg": "^8.16.3",
+    "prisma": "^6.19.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
