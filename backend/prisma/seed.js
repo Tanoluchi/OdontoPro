@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { hashPassword } from '../src/apis/auth/auth.helpers.js'
 
 const prisma = new PrismaClient()
 
@@ -6,6 +7,10 @@ async function main() {
   // Crear rol si no existe
   let adminRole = await prisma.role.findFirst({
     where: { name: 'admin' }
+  })
+
+  let userRole = await prisma.role.findFirst({
+    where: { name: 'user' }
   })
 
   if (!adminRole) {
@@ -16,13 +21,21 @@ async function main() {
     })
   }
 
+   if (!userRole) {
+    userRole = await prisma.role.create({
+      data: {
+        name: 'user'
+      }
+    })
+  }
+
   // Crear usuario si no existe
   const user = await prisma.user.upsert({
     where: { email: 'admin@example.com' },
     update: {},
     create: {
       email: 'admin@example.com',
-      password: '123456',
+      password: hashPassword('securepassword'),
       rol_id: adminRole.id
     }
   })

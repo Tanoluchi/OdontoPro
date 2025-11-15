@@ -6,21 +6,17 @@ export class UserDAO {
     static async createUser(userData: any) {
         return await prisma.user.create({
             data: userData
-        })
-    }
+        });
+    };
 
     static async getUserById(userId: any) {
         try{
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                 select: {
-                    id: true,
-                    email: true,
-                 },
-                });
+            });
 
             if (!user) return null
-
+            console.log('Fetched user:', user);
             return user;
         }
         catch (error) {
@@ -30,6 +26,5 @@ export class UserDAO {
         finally {
             await prisma.$disconnect();
         }
-
-    }
+    };
 }

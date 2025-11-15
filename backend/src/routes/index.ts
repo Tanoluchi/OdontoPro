@@ -10,13 +10,13 @@ router.get('/', (_req: Request, res: Response) => {
   res.json({ message: 'OdontoPro API is running' });
 });
 
+// User
+router.use('/users', userRouter.default);
+
 // Health check endpoint
 router.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
-
-// User Routers
-router.use('/users', userRouter.default);
 
 // 404 handler
 router.use((_req: Request, res: Response) => {
