@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import app, { prisma } from './app.js';
+import pacienteRoutes from "./pacientes/paciente.routes.js";
 
 // Load environment variables
 dotenv.config();
@@ -42,3 +43,5 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   gracefulShutdown('unhandledRejection');
 });
+
+app.use("/api/pacientes", pacienteRoutes);

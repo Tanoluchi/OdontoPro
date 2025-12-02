@@ -14,11 +14,126 @@ Backend API for OdontoPro dental management system built with Express, TypeScrip
 
 Before you begin, ensure you have the following installed:
 
+### Option 1: Docker (Recommended)
+- Docker
+- Docker Compose
+- Make (optional, for simplified commands)
+
+### Option 2: Local Development
 - Node.js (v18 or higher)
 - npm or yarn
 - PostgreSQL database
 
 ## Project Setup
+
+### Option A: Docker Setup (Recommended)
+
+The easiest way to get started is using Docker, which handles all dependencies and database setup automatically.
+
+#### 1. Environment Configuration
+
+Create a `.env` file in the backend root directory:
+
+```bash
+# Copy the example file
+cp .env.example .env
+```
+
+Edit `.env` with your preferred values:
+
+```bash
+# PostgreSQL Configuration
+POSTGRES_USER=odontopro
+POSTGRES_PASSWORD=odontopro_password
+POSTGRES_DB=odontopro
+
+# Database Configuration
+DATABASE_URL="postgresql://odontopro:odontopro_password@localhost:5432/odontopro"
+
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+```
+
+#### 2. Start with Docker Compose
+
+**Using Make (recommended):**
+```bash
+# Build and start all services
+make dev
+
+# Or step by step
+make build    # Build Docker images
+make up       # Start containers
+make logs     # View logs
+```
+
+**Using Docker Compose directly:**
+```bash
+# Build and start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+The backend API will be available at `http://localhost:3000` and PostgreSQL at `localhost:5432`.
+
+#### 3. Run Database Migrations
+
+```bash
+# Using Make
+make migrate-deploy
+
+# Using Docker Compose
+docker-compose exec backend npx prisma migrate deploy
+```
+
+#### 4. Available Make Commands
+
+```bash
+make help              # Show all available commands
+make build             # Build Docker images
+make up                # Start containers
+make down              # Stop containers
+make restart           # Restart containers
+make logs              # View all logs
+make logs-backend      # View backend logs only
+make logs-db           # View database logs only
+make shell-backend     # Open shell in backend container
+make shell-db          # Open PostgreSQL CLI
+make migrate           # Run migrations (dev mode)
+make migrate-create    # Create new migration
+make migrate-deploy    # Deploy migrations
+make prisma-studio     # Open Prisma Studio
+make prisma-generate   # Generate Prisma Client
+make clean             # Stop and remove volumes (⚠️ deletes data)
+make dev               # Build, start, and follow logs
+```
+
+#### 5. Access Services
+
+- **Backend API**: http://localhost:3000
+- **Health Check**: http://localhost:3000/health
+- **Prisma Studio**: Run `make prisma-studio` then visit http://localhost:5555
+- **PostgreSQL**: `localhost:5432` (use credentials from `.env`)
+
+#### 6. Stop Services
+
+```bash
+# Using Make
+make down
+
+# Using Docker Compose
+docker-compose down
+
+# Stop and remove all data (⚠️ Warning: deletes database)
+make clean
+```
+
+---
+
+### Option B: Local Development Setup
 
 ### 1. Clone and Install Dependencies
 
@@ -165,22 +280,64 @@ npx prisma migrate reset
 
 ## Troubleshooting
 
-### Port Already in Use
+### Docker Issues
+
+#### Port Already in Use
+If ports 3000 or 5432 are already in use:
+1. Change the port mapping in `docker-compose.yml`
+2. Update the `PORT` in your `.env` file
+
+#### Container Won't Start
+```bash
+# Check container logs
+make logs
+
+# Rebuild containers
+make down
+make build
+make up
+```
+
+#### Database Connection Issues (Docker)
+```bash
+# Check if database is healthy
+docker-compose ps
+
+# View database logs
+make logs-db
+
+# Restart database
+docker-compose restart db
+```
+
+#### Reset Everything (Docker)
+```bash
+# Stop and remove all containers and volumes
+make clean
+
+# Rebuild from scratch
+make build
+make up
+```
+
+### Local Development Issues
+
+#### Port Already in Use
 If port 3000 is already in use, change the `PORT` in your `.env` file.
 
-### Database Connection Issues
+#### Database Connection Issues
 - Verify PostgreSQL is running
 - Check your `DATABASE_URL` in `.env`
 - Ensure the database exists: `createdb odontopro`
 
-### TypeScript Errors
+#### TypeScript Errors
 ```bash
 # Clean and rebuild
 rm -rf dist/
 npm run build
 ```
 
-### Prisma Client Issues
+#### Prisma Client Issues
 ```bash
 # Regenerate Prisma Client
 npx prisma generate
@@ -190,6 +347,9 @@ npx prisma generate
 
 | Variable | Description | Default |
 |----------|-------------|---------|
+| `POSTGRES_USER` | PostgreSQL username | odontopro |
+| `POSTGRES_PASSWORD` | PostgreSQL password | odontopro_password |
+| `POSTGRES_DB` | PostgreSQL database name | odontopro |
 | `DATABASE_URL` | PostgreSQL connection string | Required |
 | `PORT` | Server port | 3000 |
 | `NODE_ENV` | Environment (development/production) | development |
